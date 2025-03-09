@@ -18,5 +18,5 @@ def calculate_target_return_weights(inv_cov_matrix, mus, target_return):
     C = np.dot(mus.T, np.dot(inv_cov_matrix, mus))
     lambda_ = (C - B * target_return) / (A * C - B**2)
     gamma_ = (A * target_return - B) / (A * C - B**2)
-    weights = np.dot(inv_cov_matrix, lambda_ * one_vector + gamma * mus)
+    weights = np.dot(inv_cov_matrix, lambda_ * one_vector + gamma_ * mus)
     return weights
