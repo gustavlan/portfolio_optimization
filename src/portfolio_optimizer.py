@@ -45,7 +45,7 @@ def calculate_min_variance_weights(inv_cov_matrix):
     return weights
 
 
-def calculate_target_return_weights(inv_cov_matrix, mus, target_return):
+def calculate_target_return_weights(cov_matrix, mus, target_return):
     """
     Computes portfolio weights that achieve a specified target return with minimum variance.
 
@@ -57,6 +57,8 @@ def calculate_target_return_weights(inv_cov_matrix, mus, target_return):
     Returns:
         np.ndarray: Asset weights for the target return portfolio.
     """
+    inv_cov_matrix = np.linalg.inv(cov_matrix)
+    
     one_vector = np.ones(inv_cov_matrix.shape[0])
 
     # Compute intermediate variables for optimization equations
@@ -70,4 +72,9 @@ def calculate_target_return_weights(inv_cov_matrix, mus, target_return):
 
     # Calculate final weights based on Lagrange multipliers
     weights = np.dot(inv_cov_matrix, lambda_ * one_vector + gamma_ * mus)
-    return weights
+
+    # Calculating the expected return and standard deviation of the portfolio
+    mu = weights.T.dot(mus)
+    sigma = (weights.T.dot(cov_matrix).dot(weights)) ** 0.5
+
+    return weights, mu, sigma
