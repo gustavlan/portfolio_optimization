@@ -50,7 +50,7 @@ def calculate_target_return_weights(cov_matrix, mus, target_return):
     Computes portfolio weights that achieve a specified target return with minimum variance.
 
     Parameters:
-        inv_cov_matrix (np.ndarray): Inverse covariance matrix.
+        cov_matrix (np.ndarray): Covariance matrix.
         mus (np.ndarray): Expected returns vector.
         target_return (float): Desired target return.
 
