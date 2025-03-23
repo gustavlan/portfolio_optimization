@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.typing import NDArray
 
-def transform_corr_matrix(corr_matrix: NDArray[np.float_], factor: float) -> NDArray[np.float_]:
+def transform_corr_matrix(corr_matrix: NDArray[np.float64], factor: float) -> NDArray[np.float64]:
     """
     Transforms a correlation matrix by scaling it towards (or beyond) the identity matrix.
 
@@ -34,7 +34,7 @@ def transform_corr_matrix(corr_matrix: NDArray[np.float_], factor: float) -> NDA
         array([[1. , 0.4],
                [0.4, 1. ]])
     """
-    # Validate that the correlation matrix is square.
+    # Validate that the correlation matrix is a square matrix.
     if corr_matrix.ndim != 2 or corr_matrix.shape[0] != corr_matrix.shape[1]:
         raise ValueError("The 'corr_matrix' must be a square matrix.")
 
