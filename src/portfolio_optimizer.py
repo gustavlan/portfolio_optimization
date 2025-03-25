@@ -1,12 +1,14 @@
 import numpy as np
+from numpy.typing import NDArray
 
-def calculate_covariance_matrix(sigmas, corr_matrix):
+def calculate_covariance_matrix(sigmas: NDArray[np.float64], 
+                                corr_matrix: NDArray[np.float64]) -> NDArray[np.float64]:
     """
     Calculate the covariance matrix given asset volatilities and a correlation matrix.
 
     Parameters:
-        sigmas (np.array): Array of asset volatilities.
-        corr_matrix (np.array): Correlation matrix of assets.
+        sigmas (np.ndarray): Array of asset volatilities.
+        corr_matrix (np.ndarray): Correlation matrix of assets.
 
     Returns:
         np.ndarray: Covariance matrix.
@@ -15,7 +17,7 @@ def calculate_covariance_matrix(sigmas, corr_matrix):
     return np.outer(sigmas, sigmas) * corr_matrix
 
 
-def calculate_inverse_covariance(cov_matrix):
+def calculate_inverse_covariance(cov_matrix: NDArray[np.float64]) -> NDArray[np.float64]:
     """
     Computes the inverse of a covariance matrix.
 
@@ -29,7 +31,7 @@ def calculate_inverse_covariance(cov_matrix):
     return np.linalg.inv(cov_matrix)
 
 
-def calculate_min_variance_weights(inv_cov_matrix):
+def calculate_min_variance_weights(inv_cov_matrix: NDArray[np.float64]) -> NDArray[np.float64]:
     """
     Calculates portfolio weights for the minimum variance portfolio.
 
@@ -45,7 +47,9 @@ def calculate_min_variance_weights(inv_cov_matrix):
     return weights
 
 
-def calculate_target_return_weights(cov_matrix, mus, target_return):
+def calculate_target_return_weights(cov_matrix: NDArray[np.float64], 
+                                    mus: NDArray[np.float64], 
+                                    target_return: float) -> tuple[NDArray[np.float64], float, float]:
     """
     Computes portfolio weights that achieve a specified target return with minimum variance.
 
@@ -55,10 +59,12 @@ def calculate_target_return_weights(cov_matrix, mus, target_return):
         target_return (float): Desired target return.
 
     Returns:
-        np.ndarray: Asset weights for the target return portfolio.
+        tuple:
+            - np.ndarray: Asset weights for the target return portfolio.
+            - float: The expected return of the portfolio.
+            - float: The standard deviation of the portfolio.
     """
     inv_cov_matrix = np.linalg.inv(cov_matrix)
-    
     one_vector = np.ones(inv_cov_matrix.shape[0])
 
     # Compute intermediate variables for optimization equations
@@ -74,7 +80,7 @@ def calculate_target_return_weights(cov_matrix, mus, target_return):
     weights = np.dot(inv_cov_matrix, lambda_ * one_vector + gamma_ * mus)
 
     # Calculating the expected return and standard deviation of the portfolio
-    mu = weights.T.dot(mus)
-    sigma = (weights.T.dot(cov_matrix).dot(weights)) ** 0.5
+    mu = float(weights.T.dot(mus))
+    sigma = float((weights.T.dot(cov_matrix).dot(weights)) ** 0.5)
 
     return weights, mu, sigma
