@@ -201,7 +201,3 @@ This project exemplifies a robust and mathematically sound approach to portfolio
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-## Contact
-
-For questions or further discussion, please reach out to [Gustav Lantz](mailto:lantzgustav@gmail.com).
